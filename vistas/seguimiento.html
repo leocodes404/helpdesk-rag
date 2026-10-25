@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Ticket</title>
+    <link rel="stylesheet" href="../estilos.css">
+</head>
+<body class="pagina-publica">
+
+    <main class="contenedor-publico">
+        <h1>Consultar Estado de Ticket</h1>
+        <form action="consultar_estado_publico.php" method="GET" class="form-consulta" onsubmit="event.preventDefault(); document.getElementById('modal-no-encontrado').showModal();">
+            <div class="grupo-input">
+                <label for="codigo">Número de Ticket</label>
+                <input type="text" id="codigo" name="codigo_ticket" placeholder="Ej: TCK-001" required>
+            </div>
+            <div class="grupo-input">
+                <label for="correo_solicitante">Correo con el que registró la incidencia</label>
+                <input type="email" id="correo_solicitante" name="correo" required>
+            </div>
+            <button type="submit">Buscar Ticket</button>
+
+            <dialog id="modal-no-encontrado" class="modal-aviso">
+            <h3>Ticket no registrado</h3>
+            <p>No se encontraron registros asociados al código o correo ingresado en la base de datos.</p>
+                <form method="dialog">
+                    <button type="submit">Aceptar</button>
+                </form>
+            </dialog>
+        </form>
+
+        <section id="resultado-seguimiento" class="caja-resultado oculto">
+            <h2>Información del Ticket <span id="seg-codigo"></span></h2>
+            <p><strong>Fecha de registro:</strong> <span id="seg-fecha"></span></p>
+            <p><strong>Servicio afectado:</strong> <span id="seg-servicio"></span></p>
+            <p><strong>Estado actual:</strong> <span id="seg-estado"></span></p>
+            <p><strong>Técnico asignado:</strong> <span id="seg-tecnico"></span></p>
+            <div class="bloque-respuesta">
+                <h3>Última actualización / Solución:</h3>
+                <p id="seg-comentario"></p>
+            </div>
+        </section>
+
+        <div class="enlaces-publicos">
+            <a href="ticket.html">Registrar nueva incidencia</a>
+            <a href="login.html">Acceso personal TI</a>
+        </div>
+    </main>
+
+</body>
+</html>

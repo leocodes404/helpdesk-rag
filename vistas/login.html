@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - HelpDesk RAG</title>
+    <link rel="stylesheet" href="../estilos.css">
+</head>
+<body class="pagina-login">
+
+    <main class="contenedor-login">
+        <div class="caja-login">
+            <h1>HelpDesk TI</h1>
+            <p>Ingreso al sistema de gestión</p>
+            
+            <form action="panel.html" method="GET" id="form-login">
+            <!-- <form action="procesar_login.php" method="POST" id="form-login"> -->
+            
+                <div class="grupo-input">
+                    <label for="correo">Correo institucional o Usuario</label>
+                    <input type="text" id="correo" name="correo" required>
+                </div>
+                <div class="grupo-input">
+                    <label for="clave">Contraseña</label>
+                    <input type="password" id="clave" name="clave" required>
+                </div>
+                
+                <button type="submit" class="btn-entrar">Iniciar Sesión</button>
+            </form>
+    
+            <div class="enlaces-publicos">
+                <a href="ticket.html">Registrar un ticket como usuario</a>
+                <a href="seguimiento.html">Consultar estado de mi ticket</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
