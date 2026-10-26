@@ -40,19 +40,19 @@ Para desplegar y ejecutar el proyecto localmente se requiere:
 
 ```text
 helpdesk-rag/
-├── conexion/
-│   ├── conexion.php                 # Conexión PDO segura a MySQL
-│   ├── guardar_ticket.php           # Inserción relacional y manejo de transacciones
-│   └── consultar_estado_publico.php # Consulta asíncrona (JSON) con INNER JOIN
+├── conexion/ 
+│   ├── conexion.php                         # Conexión PDO segura a MySQL
+│   ├── guardar_ticket.php                   # Inserción relacional y manejo de transacciones
+│   └── consultar_estado_publico.php         # Consulta asíncrona (JSON) con INNER JOIN
 ├── vistas/
-│   ├── index.html                   # Landing page institucional del proyecto
-│   ├── login.html                   # Formulario de acceso al ERP interno
-│   ├── panel.html                   # Panel administrativo (Dashboard, Triaje, Técnico)
-│   ├── ticket.html                  # Formulario público de registro de incidencias
-│   └── seguimiento.html             # Consulta pública del estado de un ticket
+│   ├── index.html                           # Landing page institucional del proyecto
+│   ├── login.html                           # Formulario de acceso al ERP interno
+│   ├── panel.html                           # Panel administrativo (Dashboard, Triaje, Técnico)
+│   ├── ticket.html                          # Formulario público de registro de incidencias
+│   └── seguimiento.html                     # Consulta pública del estado de un ticket
 ├── database/
-│   └── script_inicial.sql           # Script DDL/DML con 10 tablas (3FN) y seeders
-├── app.js                           # Control de navegación y modales de la interfaz
-├── estilos.css                      # Sistema de diseño y hojas de estilo responsivas
-├── icono.png                        # Recursos gráficos institucionales
-└── README.md                        # Documentación técnica de instalación y ejecución
+│   └── Script_CrearDataBase_HelpDeskRAG.sql # Script DDL/DML con 10 tablas (3FN) y seeders
+├── app.js                                   # Control de navegación y modales de la interfaz
+├── estilos.css                              # Sistema de diseño y hojas de estilo responsivas
+├── icono.png                                # Recursos gráficos institucionales
+└── README.md                                # Documentación técnica de instalación y ejecución
