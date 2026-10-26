@@ -10,32 +10,25 @@
 
     <main class="contenedor-publico">
         <h1>Consultar Estado de Ticket</h1>
-        <form action="consultar_estado_publico.php" method="GET" class="form-consulta" onsubmit="event.preventDefault(); document.getElementById('modal-no-encontrado').showModal();">
+        
+        <form id="form-consulta-ticket" class="form-consulta">
             <div class="grupo-input">
                 <label for="codigo">Número de Ticket</label>
-                <input type="text" id="codigo" name="codigo_ticket" placeholder="Ej: TCK-001" required>
+                <input type="text" id="codigo" name="codigo_ticket" placeholder="Ej: TCK-0001" required>
             </div>
             <div class="grupo-input">
                 <label for="correo_solicitante">Correo con el que registró la incidencia</label>
                 <input type="email" id="correo_solicitante" name="correo" required>
             </div>
             <button type="submit">Buscar Ticket</button>
-
-            <dialog id="modal-no-encontrado" class="modal-aviso">
-            <h3>Ticket no registrado</h3>
-            <p>No se encontraron registros asociados al código o correo ingresado en la base de datos.</p>
-                <form method="dialog">
-                    <button type="submit">Aceptar</button>
-                </form>
-            </dialog>
         </form>
 
         <section id="resultado-seguimiento" class="caja-resultado oculto">
-            <h2>Información del Ticket <span id="seg-codigo"></span></h2>
+            <h2>Información del Ticket: <span id="seg-codigo" style="color: #1a73e8;"></span></h2>
             <p><strong>Fecha de registro:</strong> <span id="seg-fecha"></span></p>
+            <p><strong>Solicitante:</strong> <span id="seg-solicitante"></span></p>
             <p><strong>Servicio afectado:</strong> <span id="seg-servicio"></span></p>
-            <p><strong>Estado actual:</strong> <span id="seg-estado"></span></p>
-            <p><strong>Técnico asignado:</strong> <span id="seg-tecnico"></span></p>
+            <p><strong>Estado actual:</strong> <span id="seg-estado" style="font-weight: bold; color: #185abc;"></span></p>
             <div class="bloque-respuesta">
                 <h3>Última actualización / Solución:</h3>
                 <p id="seg-comentario"></p>
@@ -48,5 +41,41 @@
         </div>
     </main>
 
+    <script>
+        const formConsulta = document.getElementById('form-consulta-ticket');
+
+        formConsulta.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const codigo = document.getElementById('codigo').value;
+            const correo = document.getElementById('correo_solicitante').value;
+
+            try {
+                const res = await fetch(`../conexion/consultar_estado_publico.php?codigo_ticket=${encodeURIComponent(codigo)}&correo=${encodeURIComponent(correo)}`);
+                const data = await res.json();
+
+                if (data.exito) {
+                    const t = data.ticket;
+                    document.getElementById('seg-codigo').textContent = t.codigo_ticket;
+                    document.getElementById('seg-fecha').textContent = t.created_at;
+                    document.getElementById('seg-solicitante').textContent = t.nombre_solicitante;
+                    document.getElementById('seg-servicio').textContent = t.servicio_afectado;
+                    document.getElementById('seg-estado').textContent = t.estado;
+                    document.getElementById('seg-comentario').textContent = t.solucion_aplicada || 'El ticket se encuentra registrado y pendiente de atención técnica.';
+                    document.getElementById('resultado-seguimiento').classList.remove('oculto');
+                } else {
+                    alert(data.mensaje);
+                }
+            } catch (err) {
+                alert('Error al conectar con la base de datos.');
+            }
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('codigo') && urlParams.get('correo')) {
+            document.getElementById('codigo').value = urlParams.get('codigo');
+            document.getElementById('correo_solicitante').value = urlParams.get('correo');
+            formConsulta.dispatchEvent(new Event('submit'));
+        }
+    </script>
 </body>
 </html>
