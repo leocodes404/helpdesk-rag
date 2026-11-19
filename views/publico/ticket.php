@@ -1,20 +1,23 @@
+<?php
+// views/publico/ticket.php - Formulario público para registro de ticket
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Ticket - HelpDesk RAG</title>
-    <link rel="stylesheet" href="../estilos.css">
+    <link rel="stylesheet" href="assets/css/estilos.css">
 </head>
 <body class="pagina-publica">
     <main class="contenedor-publico">
         <div class="encabezado-publico">
-            <span class="marca-google">HelpDesk RAG</span>
+            <a href="index.php?ruta=inicio" class="marca-google" style="text-decoration: none;">HelpDesk RAG</a>
             <h1>Registro de Ticket</h1>
             <p>Describe tu incidencia y nuestro equipo te ayudará.</p>
         </div>
 
-        <form action="../conexion/guardar_ticket.php" method="POST" enctype="multipart/form-data" class="form-publico formulario-ticket">
+        <form action="index.php?ruta=guardar-ticket" method="POST" enctype="multipart/form-data" class="form-publico formulario-ticket">
             
             <div class="grupo-input">
                 <label for="nombre">Nombre Completo</label>
@@ -50,8 +53,9 @@
         </form>
 
         <nav class="enlaces-publicos">
-            <a href="seguimiento.html">Consultar estado de mi ticket</a>
-            <a href="login.html">Acceso personal TI</a>
+            <a href="index.php?ruta=seguimiento">Consultar estado de mi ticket</a>
+            <a href="index.php?ruta=login">Acceso personal TI</a>
+            <a href="index.php?ruta=inicio">Volver al inicio</a>
         </nav>
     </main>
 </body>

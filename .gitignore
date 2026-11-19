@@ -1,0 +1,10 @@
+# Archivos subidos por usuarios (evidencias de tickets)
+uploads/*
+!uploads/.gitkeep
+
+# Archivos de entorno y configuración sensible
+.env
+.env.*
+
+# Logs y temporales
+*.log

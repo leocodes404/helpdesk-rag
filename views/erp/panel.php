@@ -1,17 +1,22 @@
+<?php
+// views/erp/panel.php - Panel de control administrativo y técnico
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control</title>
-    <link rel="stylesheet" href="../estilos.css">
+    <title>Panel de Control - HelpDesk RAG</title>
+    <link rel="stylesheet" href="assets/css/estilos.css">
 </head>
 <body class="erp-layout">
 
     <aside class="barra-lateral">
         <div class="logo-erp">
-            <h2>HelpDesk RAG</h2>
-            <span class="rol-badge" id="rol-actual">Supervisor / Técnico</span>
+            <a href="index.php?ruta=inicio" style="text-decoration: none; color: inherit;">
+                <h2>HelpDesk RAG</h2>
+            </a>
+            <span class="rol-badge" id="rol-actual"><?= htmlspecialchars($_SESSION['usuario_rol_nombre'] ?? 'Personal TI') ?></span>
         </div>
 
         <nav class="menu-navegacion">
@@ -27,8 +32,8 @@
         </nav>
 
         <div class="pie-barra">
-            <form action="login.html" method="GET">
-            <!-- <form action="logout.php" method="POST"> -->
+            <form action="index.php" method="GET">
+                <input type="hidden" name="ruta" value="logout">
                 <button type="submit" class="btn-salir">Cerrar Sesión</button>
             </form>
         </div>
@@ -37,13 +42,13 @@
     <div class="area-principal">
         <header class="cabecera-erp">
             <div class="buscador-rapido">
-                <form action="buscar_ticket.php" method="GET" onsubmit="event.preventDefault(); document.getElementById('modal-busqueda').showModal();">
-                    <input type="text" name="codigo_ticket" placeholder="Buscar N° de ticket..." onsubmit="event.preventDefault(); document.getElementById('modal-busqueda').showModal();">
+                <form action="index.php" method="GET" onsubmit="event.preventDefault(); document.getElementById('modal-busqueda').showModal();">
+                    <input type="text" name="codigo_ticket" placeholder="Buscar N° de ticket...">
                     <button type="submit">Buscar</button>
                 </form>
             </div>
             <div class="datos-sesion">
-                <span id="nombre-usuario">Usuario Conectado</span>
+                <span id="nombre-usuario"><?= htmlspecialchars($_SESSION['usuario_nombre'] ?? 'Usuario Conectado') ?></span>
             </div>
         </header>
 
@@ -54,7 +59,7 @@
                 <div class="tarjetas-metricas">
                     <div class="tarjeta">
                         <h3>Tickets Abiertos</h3>
-                        <p class="cifra" id="total-abiertos">0</p>
+                        <p class="cifra" id="total-abiertos">1</p>
                     </div>
                     <div class="tarjeta">
                         <h3>En Proceso</h3>
@@ -66,7 +71,7 @@
                     </div>
                     <div class="tarjeta">
                         <h3>Efectividad IA (RAG)</h3>
-                        <p class="cifra" id="metrica-ia">0%</p>
+                        <p class="cifra" id="metrica-ia">94.2%</p>
                     </div>
                 </div>
             </section>
@@ -88,15 +93,15 @@
                     </thead>
                     <tbody id="lista-tickets-pendientes">
                         <tr>
-                            <td>TCK-001</td>
+                            <td>TCK-0001</td>
                             <td>2026-10-25</td>
                             <td>juan.perez@institucion.edu</td>
-                            <td>Sistema Académico</td>
+                            <td>Cuentas y Accesos</td>
                             <td>Cuentas de usuario</td>
                             <td>Alta</td>
-                            <td>Pendiente</td>
+                            <td>Registrado</td>
                             <td>
-                                <form action="asignar_tecnico.php" method="POST" class="form-en-linea" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                                <form action="#" method="POST" class="form-en-linea" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                                     <input type="hidden" name="ticket_id" value="1">
                                     <select name="id_tecnico" required>
                                         <option value="">Seleccionar...</option>
@@ -122,32 +127,32 @@
                 
                 <div class="espacio-trabajo-tecnico">
                     <div class="columna-detalle-ticket">
-                        <h3>Detalle del Ticket #<span id="tck-numero">001</span></h3>
+                        <h3>Detalle del Ticket #<span id="tck-numero">0001</span></h3>
                         <p><strong>Solicitante:</strong> <span id="tck-solicitante">juan.perez@institucion.edu</span></p>
                         <p><strong>Servicio:</strong> <span id="tck-servicio">Correo Institucional</span></p>
                         <p><strong>Descripción del problema:</strong></p>
                         <div class="caja-texto-lectura" id="tck-descripcion">
-                            El usuario no puede acceder al correo institucional. Aparece mensaje de credenciales incorrectas.
+                            El usuario no puede acceder al correo institucional. Aparece mensaje de credenciales incorrectas tras el cambio de ciclo.
                         </div>
                         
                         <p><strong>Evidencias adjuntas:</strong> <a href="#" onclick="event.preventDefault(); document.getElementById('modal-sin-adjunto').showModal();">Ver archivo</a></p>
 
-                        <form action="actualizar_ticket.php" method="POST" id="form-resolucion" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                        <form action="#" method="POST" id="form-resolucion" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                             <input type="hidden" name="ticket_id" id="input-ticket-id" value="1">
                             
                             <div class="grupo-input">
                                 <label for="diagnostico">Diagnóstico Técnico</label>
-                                <textarea id="diagnostico" name="diagnostico" rows="3" required></textarea>
+                                <textarea id="diagnostico" name="diagnostico" rows="3" required placeholder="Diagnóstico de la incidencia..."></textarea>
                             </div>
 
                             <div class="grupo-input">
                                 <label for="comentario">Comentarios / Seguimiento</label>
-                                <textarea id="comentario" name="comentario" rows="2"></textarea>
+                                <textarea id="comentario" name="comentario" rows="2" placeholder="Observaciones adicionales..."></textarea>
                             </div>
 
                             <div class="grupo-input">
                                 <label for="solucion">Solución Aplicada</label>
-                                <textarea id="solucion" name="solucion_aplicada" rows="4" required></textarea>
+                                <textarea id="solucion" name="solucion_aplicada" rows="4" required placeholder="Solución definitiva aplicada al ticket..."></textarea>
                             </div>
 
                             <div class="fila-campos">
@@ -156,7 +161,7 @@
                                     <select id="nuevo_estado" name="id_estado" required>
                                         <option value="2">En Atención</option>
                                         <option value="3">En Espera de Usuario</option>
-                                        <option value="4">Resuelto</option>
+                                        <option value="4" selected>Resuelto</option>
                                         <option value="5">Cerrado</option>
                                     </select>
                                 </div>
@@ -165,7 +170,7 @@
                                     <label for="evaluacion_ia">Decisión sobre propuesta IA</label>
                                     <select id="evaluacion_ia" name="decision_ia" required>
                                         <option value="sin_usar">No se consultó IA</option>
-                                        <option value="aceptada">Aceptada sin cambios</option>
+                                        <option value="aceptada" selected>Aceptada sin cambios</option>
                                         <option value="modificada">Modificada por el técnico</option>
                                         <option value="descartada">Descartada</option>
                                     </select>
@@ -178,7 +183,7 @@
 
                     <div class="columna-asistente-rag">
                         <h3>Asistente Basado en RAG</h3>
-                        <form action="consultar_rag.php" method="POST" id="form-rag">
+                        <form action="#" method="POST" id="form-rag" onsubmit="event.preventDefault();">
                             <input type="hidden" name="ticket_id" value="1">
                             <div class="grupo-input">
                                 <label for="consulta_rag">Contexto o consulta adicional para la IA</label>
@@ -190,26 +195,26 @@
                         <div class="resultado-rag">
                             <h4>Clasificación Automática Sugerida</h4>
                             <ul class="lista-sugerencia-ia">
-                                <li><strong>Categoría:</strong> <span id="ia-categoria">Cuentas de usuario</span></li>
-                                <li><strong>Prioridad:</strong> <span id="ia-prioridad">Media</span></li>
-                                <li><strong>Posible causa:</strong> <span id="ia-causa">Bloqueo por intentos fallidos o caducidad de clave.</span></li>
+                                <li><strong>Categoría:</strong> <span id="ia-categoria">Cuentas y Accesos</span></li>
+                                <li><strong>Prioridad:</strong> <span id="ia-prioridad">Alta</span></li>
+                                <li><strong>Posible causa:</strong> <span id="ia-causa">Bloqueo por intentos fallidos o caducidad de clave LDAP.</span></li>
                             </ul>
 
                             <h4>Documentos Recuperados (Base de Conocimiento)</h4>
                             <ul id="ia-fuentes">
                                 <li>Manual de restablecimiento de cuentas institucionales (Sección 2.1)</li>
-                                <li>Procedimiento de desbloqueo en directorio activo</li>
+                                <li>Guía técnica de sincronización de directorio activo LDAP</li>
                             </ul>
 
                             <h4>Propuesta de Solución Generada</h4>
                             <div class="caja-propuesta" id="ia-propuesta-texto">
-                                1. Verificar estado de bloqueo de la cuenta en el panel de administración.
-                                2. Generar contraseña temporal y enviarla al correo alternativo registrado.
-                                3. Solicitar al usuario limpiar caché del navegador antes de reintentar.
+                                1. Verificar estado de bloqueo de la cuenta en el panel de administración central de identidad.
+                                2. Generar contraseña temporal de 8 caracteres alfanuméricos y notificar al correo alterno validado.
+                                3. Solicitar al solicitante limpiar caché del navegador antes de autenticarse en el portal.
                             </div>
 
                             <div class="acciones-rag">
-                                <button type="button" id="btn-copiar-solucion" onclick="document.getElementById('solucion').value = document.getElementById('ia-propuesta-texto').innerText; document.getElementById('evaluacion_ia').value = 'aceptada';">Usar esta solución</button>
+                                <button type="button" id="btn-copiar-solucion">Usar esta solución</button>
                             </div>
                         </div>
                     </div>
@@ -219,7 +224,7 @@
             <section id="modulo-conocimiento" class="vista-modulo oculto">
                 <h2>Base de Conocimiento (Fuentes para RAG)</h2>
                 
-                <form action="guardar_conocimiento.php" method="POST" enctype="multipart/form-data" class="form-bloque" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                <form action="#" method="POST" enctype="multipart/form-data" class="form-bloque" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                     <h3>Registrar Documento o Procedimiento</h3>
                     <div class="fila-campos">
                         <div class="grupo-input">
@@ -241,7 +246,7 @@
                                 <option value="1">Equipos Informáticos</option>
                                 <option value="2">Software</option>
                                 <option value="3">Redes y Conectividad</option>
-                                <option value="4">Cuentas de Usuario</option>
+                                <option value="4" selected>Cuentas de Usuario</option>
                                 <option value="5">Sistemas Institucionales</option>
                                 <option value="6">Impresoras</option>
                             </select>
@@ -280,7 +285,7 @@
                             <td>Cuentas de Usuario</td>
                             <td>2026-10-01</td>
                             <td>
-                                <form action="eliminar_conocimiento.php" method="POST" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                                <form action="#" method="POST" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                                     <input type="hidden" name="id_documento" value="1">
                                     <button type="submit">Eliminar</button>
                                 </form>
@@ -294,7 +299,7 @@
                 <h2>Configuración de Servicios, Categorías, Prioridades y Estados</h2>
                 
                 <div class="grilla-catalogos">
-                    <form action="guardar_servicio.php" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                    <form action="#" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                         <h3>Nuevo Servicio TI</h3>
                         <div class="grupo-input">
                             <label for="nom_servicio">Nombre del Servicio</label>
@@ -307,7 +312,7 @@
                         <button type="submit">Agregar Servicio</button>
                     </form>
 
-                    <form action="guardar_categoria.php" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                    <form action="#" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                         <h3>Nueva Categoría de Incidencia</h3>
                         <div class="grupo-input">
                             <label for="nom_categoria">Nombre de Categoría</label>
@@ -316,7 +321,7 @@
                         <button type="submit">Agregar Categoría</button>
                     </form>
 
-                    <form action="guardar_prioridad.php" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                    <form action="#" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                         <h3>Nivel de Prioridad</h3>
                         <div class="grupo-input">
                             <label for="nom_prioridad">Nombre (Ej. Crítica, Alta)</label>
@@ -329,7 +334,7 @@
                         <button type="submit">Agregar Prioridad</button>
                     </form>
 
-                    <form action="guardar_estado.php" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                    <form action="#" method="POST" class="caja-catalogo" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                         <h3>Estado de Ticket</h3>
                         <div class="grupo-input">
                             <label for="nom_estado">Nombre del Estado</label>
@@ -343,7 +348,7 @@
             <section id="modulo-usuarios" class="vista-modulo oculto">
                 <h2>Gestión de Usuarios y Roles</h2>
                 
-                <form action="guardar_usuario.php" method="POST" class="form-bloque" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                <form action="#" method="POST" class="form-bloque" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                     <div class="fila-campos">
                         <div class="grupo-input">
                             <label for="usu_nombre">Nombre Completo</label>
@@ -387,7 +392,7 @@
                             <td>Técnico TI</td>
                             <td>Activo</td>
                             <td>
-                                <form action="cambiar_estado_usuario.php" method="POST" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
+                                <form action="#" method="POST" onsubmit="event.preventDefault(); document.getElementById('modal-operacion').showModal();">
                                     <input type="hidden" name="id_usuario" value="10">
                                     <button type="submit">Desactivar</button>
                                 </form>
@@ -401,7 +406,7 @@
                 <h2>Historial de Tickets y Auditoría del Sistema</h2>
                 
                 <div class="filtros-auditoria">
-                    <form action="filtrar_auditoria.php" method="GET" class="fila-campos" onsubmit="event.preventDefault(); document.getElementById('modal-busqueda').showModal();">
+                    <form action="#" method="GET" class="fila-campos" onsubmit="event.preventDefault(); document.getElementById('modal-busqueda').showModal();">
                         <input type="date" name="fecha_inicio">
                         <input type="date" name="fecha_fin">
                         <select name="filtro_decision_ia">
@@ -428,7 +433,7 @@
                         <tr>
                             <td>2026-10-25 14:30</td>
                             <td>Carlos Gómez</td>
-                            <td>TCK-001</td>
+                            <td>TCK-0001</td>
                             <td>Cambio de estado a Resuelto</td>
                             <td>Aceptada sin cambios</td>
                         </tr>
@@ -438,15 +443,26 @@
 
         </main>
     </div>
-    <script>
-        function mostrarModulo(idModulo, enlaceActivo) {
-            document.querySelectorAll('.vista-modulo').forEach(s => s.classList.add('oculto'));
-            document.getElementById(idModulo).classList.remove('oculto');
-            document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('activo'));
-            enlaceActivo.classList.add('activo');
-        }
-    </script>
-    <script src="../app.js"></script>
 
+    <!-- Modales para interacción de la interfaz -->
+    <dialog id="modal-operacion" style="border: 1px solid #dadce0; border-radius: 8px; padding: 24px; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="margin-top: 0; color: #1a73e8;">Operación Registrada</h3>
+        <p style="color: #5f6368; font-size: 14px;">La acción ha sido simulada correctamente en la vista del panel administrativo.</p>
+        <button type="button" class="btn-google" onclick="document.getElementById('modal-operacion').close();" style="width: 100%;">Aceptar</button>
+    </dialog>
+
+    <dialog id="modal-busqueda" style="border: 1px solid #dadce0; border-radius: 8px; padding: 24px; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="margin-top: 0; color: #1a73e8;">Búsqueda de Incidencias</h3>
+        <p style="color: #5f6368; font-size: 14px;">Para consultar un ticket en tiempo real use el módulo de Seguimiento Público o la bandeja del supervisor.</p>
+        <button type="button" class="btn-google" onclick="document.getElementById('modal-busqueda').close();" style="width: 100%;">Cerrar</button>
+    </dialog>
+
+    <dialog id="modal-sin-adjunto" style="border: 1px solid #dadce0; border-radius: 8px; padding: 24px; max-width: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="margin-top: 0; color: #1a73e8;">Evidencias de la Incidencia</h3>
+        <p style="color: #5f6368; font-size: 14px;">Captura de pantalla del error o archivo adjunto asociado al ticket #0001 en el directorio <code>uploads/</code>.</p>
+        <button type="button" class="btn-google" onclick="document.getElementById('modal-sin-adjunto').close();" style="width: 100%;">Cerrar</button>
+    </dialog>
+
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

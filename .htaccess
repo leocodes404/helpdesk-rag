@@ -1,0 +1,26 @@
+# HelpDesk RAG - Apache Configuration
+DirectoryIndex index.php
+Options -Indexes
+
+# Cabeceras de seguridad
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Bloquear archivos ocultos (.env, .htaccess, .gitignore) y sensibles (.sql, .md)
+<FilesMatch "(^\.|\.(sql|md|log|bak|ini)$)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Bloquear acceso directo por navegador a carpetas internas (PHP sigue accediendo vía require_once)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(app|config|database|views)(/.*)?$ - [F,L,NC]
+</IfModule>
